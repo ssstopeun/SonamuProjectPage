@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   },
     alignItemInCenter:{
       alignItems: 'center',
-    }
+    },
     mapContainer: {
         width: '90%',
         borderWidth: 1,
