@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>home</title>
@@ -14,15 +16,15 @@
     <p>개발자 : 박정필, 현상혁, 정지은</p>
     <div style="width: 48%; height:700px; float: left;">
         <h2>번역할 코드</h2>
-        <form>
-            <p><textarea placeholder = "번역할 코드를 입력하세요. " id="inputText"></textarea></p>
-            <button id="translate">번역하기</button>
+        <form th:action="@{/translate}" method="post">
+            <p><textarea type="text" name = "code" placeholder = "번역할 코드를 입력하세요. " th:text="${source}" id="inputText">th:"${source}"</textarea></p>
+            <button type="submit" id="translate">번역하기</button>
         </form>
     </div>
     <div style="width: 48%; height:700px; float: right;">
         <h2>번역된 코드</h2>
         <form>
-            <p><textarea placeholder = "결과" id="outputText" readonly></textarea></p>
+            <p><textarea type="text" placeholder = "결과" id="outputText" th:text="${target}" readonly></textarea></p>
         </form>
     </div>
 
