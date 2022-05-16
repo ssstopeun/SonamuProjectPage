@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/project.css">
+</head>
+<body>
+    <h1>소나무언어프로그램</h1>
+    <h4>소나무언어와 Solidity언어간의 번역이 가능한 프로그램입니다.</h4>
+    <p>개발자 : 박정필, 현상혁, 정지은</p>
+    <div style="width: 48%; height:700px; float: left;">
+        <h2>번역할 코드</h2>
+        <form>
+            <p><textarea placeholder = "번역할 코드를 입력하세요. " id="inputText"></textarea></p>
+            <button id="translate">번역하기</button>
+        </form>
+    </div>
+    <div style="width: 48%; height:700px; float: right;">
+        <h2>번역된 코드</h2>
+        <form>
+            <p><textarea placeholder = "결과" id="outputText" readonly></textarea></p>
+        </form>
+    </div>
+
+
+</body>
+</html>
