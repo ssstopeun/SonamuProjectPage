@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Component
 public class SonamuPreprocessor extends SolidityBaseListener implements ParseTreeListener {
 
-    TargetCode targetCode;
+    private final TargetCode targetCode;
 
     @Autowired
     public SonamuPreprocessor(TargetCode targetCode) {
