@@ -1,4 +1,4 @@
-package com.example.SonamuProject.SonamuProjectController;
+package com.example.SonamuProject.controller;
 
 import com.example.SonamuProject.dto.SourceCode;
 import com.example.SonamuProject.dto.TargetCode;
