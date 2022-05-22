@@ -14,20 +14,26 @@
     <h1>소나무언어프로그램</h1>
     <h4>소나무언어와 Solidity언어간의 번역이 가능한 프로그램입니다.</h4>
     <p>개발자 : 박정필, 현상혁, 정지은</p>
+    <div class="file">
+        <h2>코드 불러오기 & 저장하기</h2>
+        <input id="openCode" type="file" onchange="openTextFile()" accept=".sol, .sonamu"/>
+        <input id="filename" placeholder="다운 받을 파일 이름 지정" />
+        <button id="saveCode" onclick="downloadFileEntry()">번역 결과 다운로드</button>
+    </div>
     <div style="width: 48%; height:700px; float: left;">
         <h2>번역할 코드</h2>
         <form th:action="@{/translate}" method="post">
-            <p><textarea type="text" name = "code" placeholder = "번역할 코드를 입력하세요. " th:text="${source}" id="inputText">th:"${source}"</textarea></p>
+            <p><textarea type="text" name = "code" placeholder = "번역할 코드를 입력하세요. " th:utext="${source}" id="inputText"></textarea></p>
             <button type="submit" id="translate">번역하기</button>
         </form>
     </div>
+
     <div style="width: 48%; height:700px; float: right;">
         <h2>번역된 코드</h2>
         <form>
             <p><textarea type="text" placeholder = "결과" id="outputText" th:text="${target}" readonly></textarea></p>
         </form>
     </div>
-
-
+    <script type="text/javascript" src="/js/file.js"></script>
 </body>
 </html>
