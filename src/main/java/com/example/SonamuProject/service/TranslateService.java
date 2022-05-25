@@ -15,14 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class TranslateService {
 
-    private final SonamuPreprocessor sonamuPreprocessor;
-
-    @Autowired
-    public TranslateService(SonamuPreprocessor sonamuPreprocessor) {
-        this.sonamuPreprocessor = sonamuPreprocessor;
-    }
-
-    public void translate(SourceCode sourceCode) {
+    public String translate(SourceCode sourceCode) {
         CharStream codeCharStream = CharStreams.fromString(sourceCode.getCode());
         SolidityLexer lexer = new SolidityLexer(codeCharStream);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -30,7 +23,10 @@ public class TranslateService {
         ParseTree tree = parser.sourceUnit(); // solidity 시작점은 sourceUnit
 
         ParseTreeWalker walker = new ParseTreeWalker();
+
+        SonamuPreprocessor sonamuPreprocessor = new SonamuPreprocessor();
         walker.walk(sonamuPreprocessor, tree);
+        return sonamuPreprocessor.getOutput();
     }
 
 }

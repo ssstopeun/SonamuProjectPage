@@ -1,24 +1,13 @@
 package com.example.SonamuProject.preprocessor.listener;
 
-import com.example.SonamuProject.dto.TargetCode;
 import com.example.SonamuProject.preprocessor.generated.SolidityBaseListener;
 import com.example.SonamuProject.preprocessor.generated.SolidityParser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import java.lang.annotation.Target;
-
-@Component
 public class SonamuPreprocessor extends SolidityBaseListener implements ParseTreeListener {
 
-    private final TargetCode targetCode;
-
-    @Autowired
-    public SonamuPreprocessor(TargetCode targetCode) {
-        this.targetCode = targetCode;
-    }
+    private String output;
 
     ParseTreeProperty<String> strTree = new ParseTreeProperty<>(); // String으로 tree를 만들어주는 객체
     int indent = 0;
@@ -30,6 +19,11 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
             result.append("\t");
         }
         return result.toString();
+    }
+
+    // 결과 값 반환
+    public String getOutput() {
+        return output;
     }
 
     // 최상위 노드 SourceUnit
@@ -51,10 +45,8 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
         }
         // 완성된 프로그램 반환
         // targetCode에 string setting
-        targetCode.setCode(sourceUnit);
+        output = sourceUnit;
     }
-
-    // pragmaDirective
 
     @Override
     public void exitPragmaDirective(SolidityParser.PragmaDirectiveContext ctx) {
