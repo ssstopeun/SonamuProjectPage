@@ -241,9 +241,10 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
         } else if (ctx.functionTypeName() != null) {
             strTree.put(ctx, strTree.get(ctx.functionTypeName()));
         } else {
-            String s1 = ctx.getChild(0).getText();
-            String s2 = ctx.getChild(1).getText();
-            strTree.put(ctx, s1 + " " + s2);
+            // address payable -> "지불가능한 주소" 로 번역
+            String s1 = "주소";
+            String s2 = "지불가능한";
+            strTree.put(ctx, s2 + " " + s1);
         }
     }
 
@@ -271,7 +272,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
         String s4 = ctx.getChild(5).getText(); // ')'
         String elementaryTypeName = strTree.get(ctx.elementaryTypeName());
         String typeName = strTree.get(ctx.typeName());
-        strTree.put(ctx, s1 + s2 + elementaryTypeName + s3 + typeName + s4);
+        strTree.put(ctx, s1 + s2 + elementaryTypeName +" "+ s3 +" "+ typeName + s4);
     }
 
     @Override
@@ -401,7 +402,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
         }
 
         strTree.put(ctx, natSpec + "\n" + identifier + " " + kindOf + inheritanceSpecifierPart +
-                " " + leftParentheses + "\n" + contractPart + "\n" + rightParentheses);
+                " " + leftParentheses + contractPart + "\n" + rightParentheses);
     }
 
 
@@ -449,7 +450,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
     @Override
     public void exitContractPart(SolidityParser.ContractPartContext ctx) {
         indent--; // indent 감소
-        strTree.put(ctx, "\n\t"+strTree.get(ctx.getChild(0)));
+        strTree.put(ctx, "\n\n\t"+strTree.get(ctx.getChild(0)));
     }
 
     //parameterList
@@ -463,7 +464,8 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
             mid = strTree.get(ctx.parameter(0));
         }
         for (int i = 1; i < count; i++) {
-            mid += ctx.getChild(2 * i).getText(); // ','
+            mid += ctx.getChild(2 * i).getText(); // ',
+            mid += " ";
             mid += strTree.get(ctx.parameter(i));
         }
         strTree.put(ctx, s1 + mid + s2);
@@ -568,7 +570,11 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
             // child가 Non-Terminal 인 경우
             if (ctx.getChild(i) instanceof SolidityParser.ModifierInvocationContext
                     || ctx.getChild(i) instanceof SolidityParser.StateMutabilityContext) {
-                result += strTree.get(ctx.getChild(i));
+                if((ctx.getChild(i).getText()).equals("payable")){
+                    result += ":지불가능";
+                }else{
+                    result += strTree.get(ctx.getChild(i));
+                }
             }
             // ExternalKeyword | PublicKeyword | InternalKeyword | PrivateKeyword -> : 외부용 | : 공용 | : 개인용 | : 상속자용 으로 변경
             else {
