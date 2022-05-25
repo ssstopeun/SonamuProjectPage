@@ -1,42 +1,47 @@
-// 파일 저장
-function downloadFile(filename, content) {
+$(function(){
+    // 파일 불러오기 onChange event
+    $("#openCode").change(function () {
+        const content = $("#inputText");
+        const file = this.files[0];
+        const reader = new FileReader();
 
-    const element = document.createElement('a');
+        reader.addEventListener("load", () => {
+            content.html(reader.result);
+        }, false);
+
+        if (file) {
+            reader.readAsText(file);
+        }
+    });
+
+    // 파일 저장하기 onClick event
+    $("#saveCode").click(function () {
+        const fileName = $("#fileName").val();
+        const content = $("#outputText").val();
+
+        if (fileName) {
+            downloadFile(fileName, content);
+        } else {
+            alert("저장할 파일의 이름을 입력하세요.");
+        }
+    })
+});
+
+function downloadFile(fileName, content) {
+
+    // 저장할 파일과 주소 생성
     const blob = new Blob([content], { type: 'plain/text' });
     const fileUrl = URL.createObjectURL(blob);
 
-    element.setAttribute('href', fileUrl); //file location
-    element.setAttribute('download', filename); // file name
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+    // click 될 a 태그 생성
+    const element = $("<a>").hide();
+    element.attr('href', fileUrl);
+    element.attr('download', fileName);
+
+    // click 후 remove
+    element[0].click();
+    element.remove();
 }
 
-function downloadFileEntry() {
-    const filename = document.getElementById('filename').value;
-    const content = document.getElementById('outputText').value;
 
-    console.log("download works?");
-
-    if (filename && content) {
-        downloadFile(filename, content);
-    }
-}
-
-// 파일 열기
-function openTextFile() {
-    const content = document.querySelector('#inputText');
-    const [file] = document.querySelector('#openCode').files;
-    const reader = new FileReader();
-
-    reader.addEventListener("load", () => {
-        // this will then display a text file
-        content.innerHTML = reader.result.replace(/\r\n|\r|\n/, "\n");
-    }, false);
-
-    if (file) {
-        reader.readAsText(file);
-    }
-}
 
