@@ -2,6 +2,7 @@ package com.example.SonamuProject.preprocessor.listener;
 
 import com.example.SonamuProject.preprocessor.generated.SolidityBaseListener;
 import com.example.SonamuProject.preprocessor.generated.SolidityParser;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 public class SonamuPreprocessor extends SolidityBaseListener implements ParseTreeListener {
