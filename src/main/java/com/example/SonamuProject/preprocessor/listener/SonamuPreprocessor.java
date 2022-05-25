@@ -2,13 +2,12 @@ package com.example.SonamuProject.preprocessor.listener;
 
 import com.example.SonamuProject.preprocessor.generated.SolidityBaseListener;
 import com.example.SonamuProject.preprocessor.generated.SolidityParser;
-import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 public class SonamuPreprocessor extends SolidityBaseListener implements ParseTreeListener {
 
     private String output;
-
+    
     ParseTreeProperty<String> strTree = new ParseTreeProperty<>(); // String으로 tree를 만들어주는 객체
     int indent = 0;
 
@@ -43,6 +42,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
         for (int i = 0 ; i < ctx.contractDefinition().size() ; i++) {
             sourceUnit += strTree.get(ctx.contractDefinition(i));
         }
+
         // 완성된 프로그램 반환
         // targetCode에 string setting
         output = sourceUnit;
@@ -50,11 +50,11 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
 
     @Override
     public void exitPragmaDirective(SolidityParser.PragmaDirectiveContext ctx) {
-        String s1 = ctx.getChild(0).getText(); // "pragma"
-        String s2 = strTree.get(ctx.pragmaName());
+        String s1 = "버전"; // "pragma -> 버전"
+        // String s2 = strTree.get(ctx.pragmaName());
         String s3 = strTree.get(ctx.pragmaValue());
         String s4 = ctx.getChild(3).getText(); // ";"
-        strTree.put(ctx, s1 + " " + s2 + " " + s3 + s4 + "\n");
+        strTree.put(ctx, s1 + " "  + s3 + s4 + "\n");
     }
 
     @Override
@@ -264,7 +264,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
 
     @Override
     public void exitMapping(SolidityParser.MappingContext ctx) {
-        String s1 = ctx.getChild(0).getText(); // 'mapping'
+        String s1 = "짝꿍"; // 'mapping' -> "짝꿍"
         String s2 = ctx.getChild(1).getText(); // '('
         String s3 = ctx.getChild(3).getText(); // '=>'
         String s4 = ctx.getChild(5).getText(); // ')'
@@ -280,6 +280,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
         ( InternalKeyword | ExternalKeyword | stateMutability )*
         ( 'returns' functionTypeParameterList )? ;
          */
+
         String s1 = ctx.getChild(0).getText();
         String functionTypeParameterList1 = strTree.get(ctx.functionTypeParameterList(0));
 
@@ -307,7 +308,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
             }
         }
 
-        strTree.put(ctx, s1 + functionTypeParameterList1 + mid + ret + functionTypeParameterList2);
+        strTree.put(ctx, s1 + functionTypeParameterList1 + mid + "==>" + functionTypeParameterList2);
     }
 
     @Override
@@ -361,14 +362,24 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
         String rightParentheses = "";
 
         int indexOfKindOf = 0;
+
+
         if (ctx.natSpec() != null) {
             natSpec = strTree.get(ctx.natSpec());
             indexOfKindOf = 1;
-            kindOf = ctx.getChild(indexOfKindOf).getText();
-        } else {
-            kindOf = ctx.getChild(indexOfKindOf).getText();
         }
 
+        // TODO) 인터페이스와 라이브러리 다른 한글 키워드로 변경
+        if ((ctx.getChild(indexOfKindOf).getText()).equals("contract")) {
+            kindOf = "계약";
+        } else if ((ctx.getChild(indexOfKindOf).getText()).equals("interface")) {
+            kindOf = "인터페이스";
+        } else {
+            kindOf = "라이브러리";
+        }
+
+
+        // TODO) identifier -> 계약 이름 한글로 변경해야함
         identifier = strTree.get(ctx.identifier());
 
         int countInheritanceSpecifier;
@@ -388,7 +399,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
             contractPart += strTree.get(ctx.contractPart(i));
         }
 
-        strTree.put(ctx, natSpec + "\n" + kindOf + " " + identifier + " " + inheritanceSpecifierPart +
+        strTree.put(ctx, natSpec + "\n" + identifier + " " + kindOf + inheritanceSpecifierPart +
                 " " + leftParentheses + "\n" + contractPart + "\n" + rightParentheses);
     }
 
@@ -419,14 +430,14 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
 
     @Override
     public void exitModifierDefinition(SolidityParser.ModifierDefinitionContext ctx) {
-        String s1 = ctx.getChild(0).getText(); // 'modifier'
+        String s1 = "추가동작"; // 'modifier' -> "추가동작" 으로 번역완료
         String s2 = strTree.get(ctx.identifier());
         String s3 = "";
         if (ctx.parameterList() != null) {
             s3 = strTree.get(ctx.parameterList());
         }
         String s4 = strTree.get(ctx.block());
-        strTree.put(ctx, printIndent() + s1 + " " + s2 + s3 + s4);
+        strTree.put(ctx, s1 + " " + s2 + s3 + s4);
     }
 
     @Override
@@ -437,7 +448,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
     @Override
     public void exitContractPart(SolidityParser.ContractPartContext ctx) {
         indent--; // indent 감소
-        strTree.put(ctx, strTree.get(ctx.getChild(0)));
+        strTree.put(ctx, "\n\t"+strTree.get(ctx.getChild(0)));
     }
 
     //parameterList
@@ -471,10 +482,10 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
         strTree.put(ctx, typeName + storage + identifier);
     }
 
-    //return parameters
+    //returns -> "==>" 로 번역완료
     @Override public void exitReturnParameters(SolidityParser.ReturnParametersContext ctx) {
         // 'returns' parameterList ;
-        String s1 = ctx.getChild(0).getText(); // 'returns'
+        String s1 = "==>"; // 'returns' -> "==>"
         String s2 = strTree.get(ctx.parameterList());
         strTree.put(ctx, s1 + " " + s2 + " ");
     }
@@ -546,6 +557,9 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
     }
 
     @Override
+    /*( modifierInvocation | stateMutability | ExternalKeyword
+       | PublicKeyword | InternalKeyword | PrivateKeyword )* ;*/
+    // TODO) terminal만 번역한 상태
     public void exitModifierList(SolidityParser.ModifierListContext ctx) {
         int count = ctx.getChildCount();
         String result = "";
@@ -555,9 +569,17 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
                     || ctx.getChild(i) instanceof SolidityParser.StateMutabilityContext) {
                 result += strTree.get(ctx.getChild(i));
             }
+            // ExternalKeyword | PublicKeyword | InternalKeyword | PrivateKeyword -> : 외부용 | : 공용 | : 개인용 | : 상속자용 으로 변경
             else {
-                // child가 Terminal인 경우
-                result += ctx.getChild(i).getText();
+                if((ctx.getChild(i).getText()).equals("public")){
+                    result += ":공용";
+                }else if((ctx.getChild(i).getText()).equals("external")){
+                    result += ":외부용";
+                }else if((ctx.getChild(i).getText()).equals("internal")){
+                    result += ":상속용";
+                }else if((ctx.getChild(i).getText()).equals("private")){
+                    result += ":개인용";
+                }
             }
             // 키워드 다음 공백 추가
             if (i < count - 1) {
@@ -594,37 +616,41 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
     }
 
     @Override
+    /* typeName
+    ( PublicKeyword | InternalKeyword | PrivateKeyword | ConstantKeyword )*
+    identifier ('=' expression)? ';' ; */
     public void exitStateVariableDeclaration(SolidityParser.StateVariableDeclarationContext ctx){
-        int midCount = ctx.PublicKeyword().size() + ctx.InternalKeyword().size() + ctx.ConstantKeyword().size() + ctx.PrivateKeyword().size();
-        String result = strTree.get(ctx.typeName()) + " ";
-        for (int i = 0 ; i < midCount ; i++) {
-            if(ctx.getChild(i) == ctx.PublicKeyword() || ctx.getChild(i) == ctx.InternalKeyword() ||
-                    ctx.getChild(i) == ctx.ConstantKeyword() || ctx.getChild(i) == ctx.PrivateKeyword()){
-                result += strTree.get(ctx.getChild(i));
-            }
-            // 키워드 다음 공백 추가
-            if (i < midCount - 1) {
-                result += " ";
-            }
+        String typeName = strTree.get(ctx.typeName());
+        String keyword = "";
+        String identifier = "";
+        String expression = "";
+        if((ctx.getChild(1).getText()).equals("public")){
+            keyword = ":공용";
+        }else if((ctx.getChild(1).getText()).equals("constant")){
+            keyword = ":불변처리";
+        }else if((ctx.getChild(1).getText()).equals("internal")){
+            keyword = ":상속용";
+        }else if((ctx.getChild(1).getText()).equals("private")){
+            keyword = ":개인용";
         }
-        result += strTree.get(ctx.identifier());
+
+        identifier = strTree.get(ctx.identifier());
         if(ctx.expression() != null){
-            result += " = ";
-            result += strTree.get(ctx.expression());
+            expression = " = " + strTree.get(ctx.expression());
         }
-        result += ";" + "\n";
-        strTree.put(ctx, printIndent() + result);
+        strTree.put(ctx, typeName + " "+ identifier + keyword + expression + ";");
     }
 
     @Override
+    // natSpec? 'function' identifier? parameterList modifierList returnParameters? ( ';' | block ) ;
     public void exitFunctionDefinition(SolidityParser.FunctionDefinitionContext ctx) {
         String natSpec = "";
         StringBuilder func_sb = new StringBuilder();
         if(ctx.natSpec() != null){
             natSpec = strTree.get(ctx.natSpec());
-            func_sb.append(ctx.getChild(1).getText());
+            func_sb.append("계약내용");
         } else
-            func_sb.append(ctx.getChild(0).getText());
+            func_sb.append("계약내용");
         if(ctx.identifier() != null)
             func_sb.append(" ").append(strTree.get(ctx.identifier()));
         func_sb.append(strTree.get(ctx.parameterList()));
@@ -635,28 +661,41 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
             func_sb.append(strTree.get(ctx.block()));
         else
             func_sb.append(";");
-        strTree.put(ctx, printIndent() + natSpec + func_sb);
+        strTree.put(ctx, natSpec + func_sb);
     }
 
     @Override
+    //natSpec? 'event' identifier eventParameterList AnonymousKeyword? ';' ;
     public void exitEventDefinition(SolidityParser.EventDefinitionContext ctx) {
         String natSpec = "";
+        String event = "기록";
+        String identifier = strTree.get(ctx.identifier());
         StringBuilder event_sb = new StringBuilder();
         if(ctx.natSpec() != null){
-            natSpec = strTree.get(ctx.natSpec());
-            event_sb.append(ctx.getChild(1).getText());
-        } else
-            event_sb.append(ctx.getChild(0).getText());
-        event_sb.append(strTree.get(ctx.identifier()));
+            natSpec = strTree.get(ctx.natSpec())+" ";
+        }
         event_sb.append(strTree.get(ctx.eventParameterList()));
         if(ctx.AnonymousKeyword() != null)
             event_sb.append(ctx.AnonymousKeyword());
         event_sb.append(";");
-        strTree.put(ctx, printIndent() + natSpec + event_sb);
+        strTree.put(ctx,natSpec +identifier + " " + event +event_sb);
     }
 
     @Override
     public void exitIfStatement(SolidityParser.IfStatementContext ctx) {
+        String if_snm = "경우";
+        String expr = strTree.get(ctx.expression());
+        String if_stmt = strTree.get(ctx.statement(0));
+
+        String else_snm = "";
+        String else_stmt = "";
+        if(ctx.statement().size() >= 2) {
+            else_snm = "그 외";
+            else_stmt = strTree.get(ctx.statement(1));
+        }
+        strTree.put(ctx, printIndent() + if_snm + "(" + expr + ")" + " " + if_stmt + printIndent() + else_snm + " " + else_stmt);
+
+        /*
         String s1 = ctx.getChild(0).getText(); // 'if'
         String s2 = ctx.getChild(1).getText(); // '('
         String expr = strTree.get(ctx.expression());
@@ -671,7 +710,9 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
             elseStatement = strTree.get(ctx.statement(1));
         }
         strTree.put(ctx, printIndent() + s1 + s2 + expr + s3 + " " + ifStatement + printIndent() + s4 + " " + elseStatement);
+        */
     }
+
 
     @Override
     public void exitSimpleStatement(SolidityParser.SimpleStatementContext ctx) {
@@ -759,5 +800,72 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
         strTree.put(ctx, typeName + storage + identifier);
     }
 
+
+    @Override
+    public void exitReturnStatement(SolidityParser.ReturnStatementContext ctx){
+        // 'return' expression? ';'
+        String return_smn = "반환";
+        String expr = "";
+        if(ctx.expression() != null) {
+            expr = strTree.get(ctx.expression());
+        }
+        strTree.put(ctx, printIndent() + return_smn + " " + expr);
+    }
+
+    @Override
+    public void exitEmitStatement(SolidityParser.EmitStatementContext ctx) {
+        String emit_smn = "기록하다";
+        String funcCall = strTree.get(ctx.functionCall());
+        strTree.put(ctx, printIndent() + funcCall + emit_smn);
+    }
+
+    @Override
+    public void exitFunctionCall(SolidityParser.FunctionCallContext ctx) {
+        String expr = strTree.get(ctx.expression());
+        String funcCallArgu = strTree.get(ctx.functionCallArguments());
+        strTree.put(ctx, expr + "( " + funcCallArgu + " )");
+    }
+
+    @Override
+    public void exitFunctionCallArguments(SolidityParser.FunctionCallArgumentsContext ctx) {
+        String whatList = "";
+        if(ctx.getChild(1) != null && ctx.getChild(1).equals("}")) {
+            whatList = "{ " + strTree.get(ctx.nameValueList()) + " }";
+        } else{
+            whatList = strTree.get(ctx.expressionList());
+        }
+        strTree.put(ctx, whatList);
+    }
+
+    @Override
+    public void exitNameValueList(SolidityParser.NameValueListContext ctx) {
+        int size = ctx.getChildCount();
+        String nameValue = ctx.getChild(0).getText();
+        String nameValue_plus = "";
+        for(int i = 1; i < size; i++){
+            nameValue_plus += ", " + ctx.getChild(i);
+        }
+        strTree.put(ctx, nameValue + nameValue_plus);
+    }
+
+    // 'constructor' parameterList modifierList block ;
+    @Override
+    public void exitConstructorDefinition(SolidityParser.ConstructorDefinitionContext ctx) {
+        // constructor -> "초안" 번역완료
+        String constructor = "초안";
+        String parameterList = strTree.get(ctx.parameterList());
+        String modifierList = strTree.get(ctx.modifierList());
+        String block = strTree.get(ctx.block());
+
+        strTree.put(ctx, constructor +" "+ parameterList +" "+ modifierList +" "+ block);
+    }
+
+
+    @Override
+    public void exitNameValue(SolidityParser.NameValueContext ctx){
+        String identifier = strTree.get(ctx.identifier());
+        String expr = strTree.get(ctx.expression());
+        strTree.put(ctx, identifier + " : " + expr);
+    }
 
 }
