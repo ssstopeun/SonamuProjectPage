@@ -231,30 +231,52 @@ Ufixed
   : 'ufixed' | ( 'ufixed' [0-9]+ 'x' [0-9]+ ) ;
 
 expression
-  : expression ('++' | '--')
+  : expression '++'
+  | expression '--'
   | 'new' typeName
   | expression '[' expression ']'
   | expression '(' functionCallArguments ')'
   | expression '.' identifier
   | '(' expression ')'
-  | ('++' | '--') expression
-  | ('+' | '-') expression
-  | ('after' | 'delete') expression
+  | '++' expression
+  | '--' expression
+  | '+' expression
+  | '-' expression
+  | 'after' expression
+  | 'delete' expression
   | '!' expression
   | '~' expression
   | expression '**' expression
-  | expression ('*' | '/' | '%') expression
-  | expression ('+' | '-') expression
-  | expression ('<<' | '>>') expression
+  | expression '*' expression
+  | expression '/' expression
+  | expression '%' expression
+  | expression '+' expression
+  | expression '-' expression
+  | expression '<<' expression
+  | expression '>>' expression
   | expression '&' expression
   | expression '^' expression
   | expression '|' expression
-  | expression ('<' | '>' | '<=' | '>=') expression
-  | expression ('==' | '!=') expression
+  | expression '<' expression
+  | expression '>' expression
+  | expression '<=' expression
+  | expression '>=' expression
+  | expression '==' expression
+  | expression '!=' expression
   | expression '&&' expression
   | expression '||' expression
+  | expression '=' expression
+  | expression '|=' expression
+  | expression '^=' expression
+  | expression '&=' expression
+  | expression '<<=' expression
+  | expression '>>=' expression
+  | expression '+=' expression
+  | expression '-=' expression
+  | expression '*=' expression
+  | expression '/=' expression
+  | expression '%=' expression
   | expression '?' expression ':' expression
-  | expression ('=' | '|=' | '^=' | '&=' | '<<=' | '>>=' | '+=' | '-=' | '*=' | '/=' | '%=') expression
   | primaryExpression ;
 
 primaryExpression
