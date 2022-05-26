@@ -1,4 +1,6 @@
-package com.example.SonamuProject.preprocessor.generated;
+// Generated from /Users/shhyun/Documents/projects/school/2022-1_project/solidity/SonamuSpringPage/src/main/antlr/Solidity.g4 by ANTLR 4.10.1
+
+    package com.example.SonamuProject.preprocessor.generated;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

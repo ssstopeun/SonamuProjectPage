@@ -4,7 +4,7 @@
 grammar Solidity;
 
 @header {
-    package generated;
+    package com.example.SonamuProject.preprocessor.generated;
 }
 
 sourceUnit
