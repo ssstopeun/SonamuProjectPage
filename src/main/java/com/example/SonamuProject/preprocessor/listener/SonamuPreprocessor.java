@@ -950,12 +950,17 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
         strTree.put(ctx, constructor + " " + parameterList + " " + modifierList + " " + block);
     }
 
-
     @Override
     public void exitNameValue(SolidityParser.NameValueContext ctx) {
         String identifier = strTree.get(ctx.identifier());
         String expr = strTree.get(ctx.expression());
         strTree.put(ctx, identifier + " : " + expr);
     }
-
+    @Override
+    public void exitWhileStatement(SolidityParser.WhileStatementContext ctx) {
+        String while_snm = "동안은 ";
+        String expr = strTree.get(ctx.expression());
+        String state = strTree.get(ctx.statement());
+        strTree.put(ctx, printIndent() + "(" + expr + ") " + while_snm + state);
+    }
 }
