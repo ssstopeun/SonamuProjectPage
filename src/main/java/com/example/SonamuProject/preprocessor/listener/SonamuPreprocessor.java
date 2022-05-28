@@ -308,7 +308,62 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
 
     @Override
     public void exitElementaryTypeName(SolidityParser.ElementaryTypeNameContext ctx) {
-        strTree.put(ctx, ctx.getChild(0).getText());
+        String s = ctx.getChild(0).getText();
+        switch(s){
+            case "bool" :
+                strTree.put(ctx,"참거짓");
+            case "address":
+                strTree.put(ctx, "주소형");
+            case "string":
+                strTree.put(ctx, "문자열");
+            case "var":
+                strTree.put(ctx, "변수");
+            case "byte":
+                strTree.put(ctx, "바이트");
+            default:
+                break;
+        }
+        // 앞 세글자 잘라서 int, uin, byt, fix, ufi인지 확인해서 나눔.
+        String cuttingS = s.substring(0,3);
+        switch(cuttingS){
+            case "int":
+                if (s.length() == 3) {
+                    strTree.put(ctx,"정수");
+                }else {
+                    strTree.put(ctx, "정수" + s.substring(3));
+                }
+            case "uin":
+                if (s.length() == 4){
+                    strTree.put(ctx, "양의정수");
+                }else{
+                    strTree.put(ctx,"양의정수" + s.substring(4));
+                }
+                /*
+            case "byt":
+                if(s.length() == 5){
+                    strTree.put(ctx,"바이트배열");
+                }else{
+                    strTree.put(ctx,"바이트배열" + s.substring(5));
+                }
+            case "fix":
+                if(s.length() ==5){
+                    strTree.put(ctx,"고정소수점");
+                }else{
+                    strTree.put(ctx, "고정소수점"+s.substring(5));
+                }
+            case "ufi":
+                if(s.length() ==6) {
+                    strTree.put(ctx, "양의고정소수점");
+                } else{
+                    strTree.put(ctx,"양의고정소수점" + s.substring(6));
+                }*/
+
+            default:
+                break;
+        }
+
+
+
     }
 
     @Override
@@ -604,7 +659,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
         String identifier = "";
 
         // indexedkeyword가 있으면 count -1
-        if ((ctx.getChild(1).getText()).equals("indexed")) {
+        if ((ctx.getChild(1).getText()).equals(" indexed")) {
             indexedKeyword = ctx.getChild(1).getText();
             count = count - 1;
         }
@@ -614,7 +669,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
             identifier = strTree.get(ctx.getChild(ctx.getChildCount() - 1));
         }
 
-        strTree.put(ctx, typeName + indexedKeyword + identifier);
+        strTree.put(ctx, typeName + indexedKeyword +" "+ identifier);
 
     }
 
