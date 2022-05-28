@@ -44,7 +44,8 @@ natSpec
   | NatSpecMultiLine ;
 
 contractDefinition
-  : natSpec? ( '계약' | 'interface' | '라이브러리' ) identifier
+  : natSpec? identifier
+    ( '계약' | '인터페이스' | '라이브러리' )
     ( 'is' inheritanceSpecifier (',' inheritanceSpecifier )* )?
     '{' contractPart* '}' ;
 
@@ -62,9 +63,9 @@ contractPart
   | enumDefinition ;
 
 stateVariableDeclaration
-  : typeName
-    ( PublicKeyword | InternalKeyword | PrivateKeyword | ConstantKeyword )*
-    identifier ('=' expression)? ';' ;
+  : typeName identifier
+     ( PublicKeyword | InternalKeyword | PrivateKeyword | ConstantKeyword )*
+     ('=' expression)? ';' ;
 
 usingForDeclaration
   : 'using' identifier 'for' ('*' | typeName) ';' ;
@@ -128,7 +129,7 @@ typeName
   | mapping
   | typeName '[' expression? ']'
   | functionTypeName
-  | 'address' ':지불가능' ;
+  | '지불가능한' '주소' ;
 
 userDefinedTypeName
   : identifier ( '.' identifier )* ;
@@ -137,9 +138,9 @@ mapping
   : '짝꿍' '(' elementaryTypeName '=>' typeName ')' ;
 
 functionTypeName
-  : 'function' functionTypeParameterList
+  : '계약내용' functionTypeParameterList
     ( InternalKeyword | ExternalKeyword | stateMutability )*
-    ( 'returns' functionTypeParameterList )? ;
+    ( '==>' functionTypeParameterList )? ;
 
 storageLocation
   : 'memory' | 'storage' | 'calldata';
@@ -171,7 +172,7 @@ ifStatement
   : '경우' '(' expression ')' statement ( '그외' statement )? ;
 
 whileStatement
-  : 'while' '(' expression ')' statement ;
+  : '(' expression ')' '동안은' statement ;
 
 simpleStatement
   : ( variableDeclarationStatement | expressionStatement ) ;
@@ -210,22 +211,22 @@ identifierList
   : '(' ( identifier? ',' )* identifier? ')' ;
 
 elementaryTypeName
-  : 'address' | 'bool' | 'string' | 'var' | Int | Uint | 'byte' | Byte | Fixed | Ufixed ;
+  : '주소형' | '논리연산자' | '문자열' | '변수' | Int | Uint | '바이트' | Byte | Fixed | Ufixed ;
 
 Int
-  : 'int' | 'int8' | 'int16' | 'int24' | 'int32' | 'int40' | 'int48' | 'int56' | 'int64' | 'int72' | 'int80' | 'int88' | 'int96' | 'int104' | 'int112' | 'int120' | 'int128' | 'int136' | 'int144' | 'int152' | 'int160' | 'int168' | 'int176' | 'int184' | 'int192' | 'int200' | 'int208' | 'int216' | 'int224' | 'int232' | 'int240' | 'int248' | 'int256' ;
+  : '정수' | '정수8' | '정수16' | '정수24' | '정수32' | '정수40' | '정수48' | '정수56' | '정수64' | '정수72' | '정수80' | '정수88' | '정수96' | '정수104' | '정수112' | '정수120' | '정수128' | '정수136' | '정수144' | '정수152' | '정수160' | '정수168' | '정수176' | '정수184' | '정수192' | '정수200' | '정수208' | '정수216' | '정수224' | '정수232' | '정수240' | '정수248' | '정수256' ;
 
 Uint
-  : 'uint' | 'uint8' | 'uint16' | 'uint24' | 'uint32' | 'uint40' | 'uint48' | 'uint56' | 'uint64' | 'uint72' | 'uint80' | 'uint88' | 'uint96' | 'uint104' | 'uint112' | 'uint120' | 'uint128' | 'uint136' | 'uint144' | 'uint152' | 'uint160' | 'uint168' | 'uint176' | 'uint184' | 'uint192' | 'uint200' | 'uint208' | 'uint216' | 'uint224' | 'uint232' | 'uint240' | 'uint248' | 'uint256' ;
+  : '양의정수' | '양의정수8' | '양의정수16' | '양의정수24' | '양의정수32' | '양의정수40' | '양의정수48' | '양의정수56' | '양의정수64' | '양의정수72' | '양의정수80' | '양의정수88' | '양의정수96' | '양의정수104' | '양의정수112' | '양의정수120' | '양의정수128' | '양의정수136' | '양의정수144' | '양의정수152' | '양의정수160' | '양의정수168' | '양의정수176' | '양의정수184' | '양의정수192' | '양의정수200' | '양의정수208' | '양의정수216' | '양의정수224' | '양의정수232' | '양의정수240' | '양의정수248' | '양의정수256' ;
 
 Byte
-  : 'bytes' | 'bytes1' | 'bytes2' | 'bytes3' | 'bytes4' | 'bytes5' | 'bytes6' | 'bytes7' | 'bytes8' | 'bytes9' | 'bytes10' | 'bytes11' | 'bytes12' | 'bytes13' | 'bytes14' | 'bytes15' | 'bytes16' | 'bytes17' | 'bytes18' | 'bytes19' | 'bytes20' | 'bytes21' | 'bytes22' | 'bytes23' | 'bytes24' | 'bytes25' | 'bytes26' | 'bytes27' | 'bytes28' | 'bytes29' | 'bytes30' | 'bytes31' | 'bytes32' ;
+  : '바이트배열' | '바이트배열1' | 'b바이트배열2' | '바이트배열3' | '바이트배열4' | '바이트배열5' | '바이트배열6' | '바이트배열7' | '바이트배열8' | '바이트배열9' | '바이트배열10' | '바이트배열11' | '바이트배열12' | '바이트배열13' | '바이트배열14' | '바이트배열15' | '바이트배열16' | '바이트배열17' | '바이트배열18' | '바이트배열19' | '바이트배열20' | '바이트배열21' | '바이트배열22' | '바이트배열23' | '바이트배열24' | '바이트배열25' | '바이트배열26' | '바이트배열27' | '바이트배열28' | '바이트배열29' | '바이트배열30' | '바이트배열31' | '바이트배열32' ;
 
 Fixed
-  : 'fixed' | ( 'fixed' [0-9]+ 'x' [0-9]+ ) ;
+  : '고정소수점' | ( '고정소수점' [0-9]+ 'x' [0-9]+ ) ;
 
 Ufixed
-  : 'ufixed' | ( 'ufixed' [0-9]+ 'x' [0-9]+ ) ;
+  : '양의고정소수점' | ( '양의고정소수점' [0-9]+ 'x' [0-9]+ ) ;
 
 expression
   : expression '++'
@@ -393,7 +394,7 @@ VersionLiteral
   : [0-9]+ '.' [0-9]+ '.' [0-9]+ ;
 
 BooleanLiteral
-  : 'true' | 'false' ;
+  : '참' | '거짓' ;
 
 DecimalNumber
   : ( DecimalDigits | (DecimalDigits? '.' DecimalDigits) ) ( [eE] DecimalDigits )? ;
