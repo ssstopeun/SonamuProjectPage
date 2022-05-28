@@ -247,6 +247,17 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
             s1 = strTree.get(ctx.getChild(0));
         } else {
             // 터미널
+            String terminal = ctx.getChild(0).getText();
+            switch(terminal){
+                case "true":
+                    strTree.put(ctx,"참");
+                    break;
+                case "false":
+                    strTree.put(ctx,"거짓");
+                    break;
+                default:
+                    break;
+            }
             s1 = ctx.getChild(0).getText();
         }
 
@@ -309,59 +320,62 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
     @Override
     public void exitElementaryTypeName(SolidityParser.ElementaryTypeNameContext ctx) {
         String s = ctx.getChild(0).getText();
-        switch(s){
-            case "bool" :
+        String cuttingS = s.substring(0,3);
+        strTree.put(ctx,cuttingS);
+        switch(cuttingS){
+            case "boo" :
                 strTree.put(ctx,"참거짓");
-            case "address":
+                break;
+            case "add":
                 strTree.put(ctx, "주소형");
-            case "string":
+                break;
+            case "str":
                 strTree.put(ctx, "문자열");
+                break;
             case "var":
                 strTree.put(ctx, "변수");
-            case "byte":
-                strTree.put(ctx, "바이트");
-            default:
                 break;
-        }
-        // 앞 세글자 잘라서 int, uin, byt, fix, ufi인지 확인해서 나눔.
-        String cuttingS = s.substring(0,3);
-        switch(cuttingS){
+            case "byt":
+                if(s.length() == 4){
+                    strTree.put(ctx, "바이트");
+                } else if(s.length() == 5) {
+                    strTree.put(ctx, "바이트배열");
+                } else {
+                    strTree.put(ctx, "바이트배열" + s.substring(5));
+                }
+                break;
             case "int":
                 if (s.length() == 3) {
                     strTree.put(ctx,"정수");
                 }else {
                     strTree.put(ctx, "정수" + s.substring(3));
                 }
+                break;
             case "uin":
                 if (s.length() == 4){
                     strTree.put(ctx, "양의정수");
                 }else{
                     strTree.put(ctx,"양의정수" + s.substring(4));
                 }
-                /*
-            case "byt":
-                if(s.length() == 5){
-                    strTree.put(ctx,"바이트배열");
-                }else{
-                    strTree.put(ctx,"바이트배열" + s.substring(5));
-                }
+                break;
             case "fix":
                 if(s.length() ==5){
                     strTree.put(ctx,"고정소수점");
                 }else{
                     strTree.put(ctx, "고정소수점"+s.substring(5));
                 }
+                break;
             case "ufi":
                 if(s.length() ==6) {
                     strTree.put(ctx, "양의고정소수점");
                 } else{
                     strTree.put(ctx,"양의고정소수점" + s.substring(6));
-                }*/
+                }
+                break;
 
             default:
                 break;
         }
-
 
 
     }
