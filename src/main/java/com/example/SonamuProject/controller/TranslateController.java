@@ -21,6 +21,7 @@ public class TranslateController {
     public String translate(Model model, SourceCode sourceCode) {
         String output = translateService.translate(sourceCode);
         model.addAttribute("source", sourceCode.getCode());
+        model.addAttribute("sourceType", sourceCode.getTypeOfCode());
         model.addAttribute("target", output);
 
         return "index";

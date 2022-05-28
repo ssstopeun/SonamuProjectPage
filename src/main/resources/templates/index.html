@@ -23,6 +23,8 @@
     <div style="width: 48%; height:700px; float: left;">
         <h2>번역할 코드</h2>
         <form th:action="@{/translate}" method="post">
+            <input type="radio" name="typeOfCode" value="sonamu" th:checked="${sourceType eq 'sonamu'}">소나무
+            <input type="radio" name="typeOfCode" value="solidity" th:checked="${sourceType eq 'solidity'}">Solidity
             <p><textarea type="text" name = "code" placeholder = "번역할 코드를 입력하세요. " th:utext="${source}" id="inputText"></textarea></p>
             <button type="submit" id="translate">번역하기</button>
         </form>
