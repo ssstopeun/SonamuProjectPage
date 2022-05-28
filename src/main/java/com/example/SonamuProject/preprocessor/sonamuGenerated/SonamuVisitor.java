@@ -1,4 +1,4 @@
-// Generated from C:/Users/user/OneDrive - 충남대학교/바탕 화면/졸프/SonamuProjectPage/src/main/g4\Sonamu.g4 by ANTLR 4.10.1
+// Generated from C:/Users/User/Desktop/Project/SonamuProjectPage/src/main/g4\Sonamu.g4 by ANTLR 4.10.1
 
     package com.example.SonamuProject.preprocessor.sonamuGenerated;
 
