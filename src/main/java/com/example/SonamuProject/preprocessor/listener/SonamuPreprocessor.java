@@ -619,7 +619,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
         // 'returns' parameterList ;
         String s1 = "==>"; // 'returns' -> "==>"
         String s2 = strTree.get(ctx.parameterList());
-        strTree.put(ctx, s1 + " " + s2 + " ");
+        strTree.put(ctx, s1 + " " + s2 );
     }
 
     @Override
@@ -803,7 +803,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
         if (ctx.returnParameters() != null)
             func_sb.append(" ").append(strTree.get(ctx.returnParameters()));
         if (ctx.block() != null) {
-            func_sb.append(strTree.get(ctx.block()));
+            func_sb.append(" " +strTree.get(ctx.block()));
         } else {
             func_sb.append(";");
         }
@@ -879,7 +879,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
 
         if(ctx.expression() != null)
             expr = " = " + strTree.get(ctx.expression());
-        strTree.put(ctx, printIndent() + s + expr);
+        strTree.put(ctx, printIndent() + s + expr + ";");
         /*
         String start = "";
         String end = "";
@@ -911,7 +911,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
     @Override
     public void exitExpressionStatement(SolidityParser.ExpressionStatementContext ctx) {
         String expr = strTree.get(ctx.expression());
-        String s1 = ctx.getChild(1).getText();
+        String s1 = ";";
         strTree.put(ctx, printIndent() + expr + s1);
     }
 
