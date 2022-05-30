@@ -1,6 +1,6 @@
 $(function(){
     // 파일 불러오기 onChange event
-    $("#openCode").change(function () {
+    $("#openCode").change(function() {
         const content = $("#inputText");
         const file = this.files[0];
         const reader = new FileReader();
@@ -15,15 +15,24 @@ $(function(){
     });
 
     // 파일 저장하기 onClick event
-    $("#saveCode").click(function () {
+    $("#saveCode").click(function() {
         const fileName = $("#fileName").val();
         const content = $("#outputText").val();
 
         if (fileName) {
             downloadFile(fileName, content);
         } else {
-            alert("저장할 파일의 이름을 입력하세요.");
+            alert("저장할 파일의 이름을 입력하세요!");
         }
+    })
+
+    // 언어 종류 선택하지 않았을 시 summit 되지 않도록 함
+    $("#translateForm").submit(function() {
+        if ($("input[name='typeOfCode']:checked").val() === undefined) {
+            alert('입력 언어를 선택하세요!');
+            return false;
+        }
+        return true;
     })
 });
 
