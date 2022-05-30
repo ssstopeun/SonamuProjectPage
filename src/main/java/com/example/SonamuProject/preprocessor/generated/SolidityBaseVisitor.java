@@ -1,4 +1,4 @@
-// Generated from /Users/shhyun/Documents/projects/school/2022-1_project/solidity/SonamuSpringPage/src/main/g4/Solidity.g4 by ANTLR 4.10.1
+// Generated from C:/Users/user/OneDrive - 충남대학교/바탕 화면/졸프/SonamuProjectPage/src/main/g4\Solidity.g4 by ANTLR 4.10.1
 
     package com.example.SonamuProject.preprocessor.generated;
 
@@ -370,6 +370,13 @@ public class SolidityBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitThrowStatement(SolidityParser.ThrowStatementContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitRequireStatement(SolidityParser.RequireStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

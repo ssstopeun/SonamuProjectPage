@@ -1,4 +1,4 @@
-// Generated from /Users/shhyun/Documents/projects/school/2022-1_project/solidity/SonamuSpringPage/src/main/g4/Solidity.g4 by ANTLR 4.10.1
+// Generated from C:/Users/user/OneDrive - 충남대학교/바탕 화면/졸프/SonamuProjectPage/src/main/g4\Solidity.g4 by ANTLR 4.10.1
 
     package com.example.SonamuProject.preprocessor.generated;
 
@@ -519,6 +519,16 @@ public interface SolidityListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitThrowStatement(SolidityParser.ThrowStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SolidityParser#requireStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterRequireStatement(SolidityParser.RequireStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SolidityParser#requireStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitRequireStatement(SolidityParser.RequireStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SolidityParser#emitStatement}.
 	 * @param ctx the parse tree

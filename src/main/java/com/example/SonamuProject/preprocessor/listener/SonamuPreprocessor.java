@@ -912,7 +912,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
     public void exitExpressionStatement(SolidityParser.ExpressionStatementContext ctx) {
         String expr = strTree.get(ctx.expression());
         String s1 = ";";
-        strTree.put(ctx, printIndent() + expr + s1);
+        strTree.put(ctx, expr + s1);
     }
 
     @Override
@@ -1034,4 +1034,45 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
         String state = strTree.get(ctx.statement());
         strTree.put(ctx, printIndent() + "(" + expr + ") " + while_snm + state);
     }
+
+    @Override
+    public void exitRequireStatement(SolidityParser.RequireStatementContext ctx) {
+        String require_snm = "실행조건";
+        String exprList = strTree.get(ctx.expressionList());
+        String str = "";
+
+        if(ctx.StringLiteral() != null){
+            str = ", " + strTree.get(ctx.StringLiteral());
+        }
+
+        strTree.put(ctx, printIndent() + require_snm + " (" + exprList + str + ");");
+    }
+
+    @Override
+    public void exitForStatement(SolidityParser.ForStatementContext ctx) {
+        String id = "";
+        String range = "";
+        String expr = "";
+        String stmt = strTree.get(ctx.statement());
+
+        if(ctx.simpleStatement() != null)
+            id = strTree.get(ctx.simpleStatement()).replace(";", "");
+        if(ctx.expressionStatement() != null)
+            range = strTree.get(ctx.expressionStatement()).replace(";","");
+        if(ctx.expression() != null)
+            expr = strTree.get(ctx.expression());
+
+        strTree.put(ctx, id + "이/가 " + range + "안에서 " + expr + "실행" + printIndent() + stmt);
+    }
+
+    @Override
+    public void exitContinueStatement(SolidityParser.ContinueStatementContext ctx) {
+        strTree.put(ctx, "다시;");
+    }
+
+    @Override
+    public void exitBreakStatement(SolidityParser.BreakStatementContext ctx) {
+        strTree.put(ctx, "그만;");
+    }
+
 }

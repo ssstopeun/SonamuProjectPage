@@ -165,7 +165,8 @@ statement
   | returnStatement
   | throwStatement
   | emitStatement
-  | simpleStatement ;
+  | simpleStatement
+  | requireStatement;
 
 expressionStatement
   : expression ';' ;
@@ -199,6 +200,9 @@ returnStatement
 
 throwStatement
   : 'throw' ';' ;
+
+requireStatement
+  : 'require' '(' expression (', ' expression)? ')' ;
 
 emitStatement
   : 'emit' functionCall ';' ;
