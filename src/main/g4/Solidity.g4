@@ -202,7 +202,7 @@ throwStatement
   : 'throw' ';' ;
 
 requireStatement
-  : 'require' '(' expression (', ' expression)? ')' ;
+  : 'require' '(' expressionList ')' ';' ;
 
 emitStatement
   : 'emit' functionCall ';' ;

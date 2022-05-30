@@ -1039,13 +1039,8 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
     public void exitRequireStatement(SolidityParser.RequireStatementContext ctx) {
         String require_snm = "실행조건";
         String exprList = strTree.get(ctx.expressionList());
-        String str = "";
 
-        if(ctx.StringLiteral() != null){
-            str = ", " + strTree.get(ctx.StringLiteral());
-        }
-
-        strTree.put(ctx, printIndent() + require_snm + " (" + exprList + str + ");");
+        strTree.put(ctx, printIndent() + require_snm + " (" + exprList + ");");
     }
 
     @Override
