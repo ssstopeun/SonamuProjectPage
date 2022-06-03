@@ -835,8 +835,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
 
     @Override
     public void exitIfStatement(SolidityParser.IfStatementContext ctx) {
-        int origin_indent = indent;
-        indent = 0;
+
         String if_snm = "경우";
         String expr = strTree.get(ctx.expression());
         String if_stmt = strTree.get(ctx.statement(0));
@@ -847,7 +846,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
             else_snm = "그 외";
             else_stmt = strTree.get(ctx.statement(1));
         }
-        indent = origin_indent;
+
         strTree.put(ctx, if_snm + " (" + expr + ")" + " " + if_stmt + printIndent() + else_snm + " " + else_stmt);
 
         /*

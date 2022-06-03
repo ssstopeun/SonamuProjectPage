@@ -400,6 +400,16 @@ public interface SonamuListener extends ParseTreeListener {
 	 */
 	void exitStatement(SonamuParser.StatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SonamuParser#requireStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterRequireStatement(SonamuParser.RequireStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SonamuParser#requireStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitRequireStatement(SonamuParser.RequireStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SonamuParser#expressionStatement}.
 	 * @param ctx the parse tree
 	 */

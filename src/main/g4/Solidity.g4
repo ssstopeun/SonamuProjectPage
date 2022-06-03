@@ -190,10 +190,10 @@ doWhileStatement
   : 'do' statement 'while' '(' expression ')' ';' ;
 
 continueStatement
-  : 'continue' ';' ;
+  : '다시' ';' ;
 
 breakStatement
-  : 'break' ';' ;
+  : '그만' ';' ;
 
 returnStatement
   : 'return' expression? ';' ;
