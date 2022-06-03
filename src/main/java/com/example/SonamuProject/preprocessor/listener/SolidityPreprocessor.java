@@ -314,7 +314,7 @@ public class SolidityPreprocessor extends SonamuBaseListener implements ParseTre
                     if(s.length() == 4){
                         strTree.put(ctx,"uint");
                     }else{
-                        strTree.put(ctx,"양의정수" + s.substring(4));
+                        strTree.put(ctx,"uint" + s.substring(4));
                     }
                 }else {
                     if(s.length() == 7){
@@ -483,7 +483,7 @@ public class SolidityPreprocessor extends SonamuBaseListener implements ParseTre
         // 'returns' parameterList ;
         String s1 = "returns";
         String s2 = strTree.get(ctx.parameterList());
-        strTree.put(ctx, s1 + " " + s2 + " ");
+        strTree.put(ctx, s1 + " " + s2);
     }
 
     @Override
@@ -670,7 +670,7 @@ public class SolidityPreprocessor extends SonamuBaseListener implements ParseTre
         if (ctx.returnParameters() != null)
             func_sb.append(" ").append(strTree.get(ctx.returnParameters()));
         if (ctx.block() != null)
-            func_sb.append(strTree.get(ctx.block()));
+            func_sb.append(" " +strTree.get(ctx.block()));
         else
             func_sb.append(";");
         strTree.put(ctx, natSpec + func_sb);
@@ -777,7 +777,7 @@ public class SolidityPreprocessor extends SonamuBaseListener implements ParseTre
     @Override
     public void exitExpressionStatement(SonamuParser.ExpressionStatementContext ctx) {
         String expr = strTree.get(ctx.expression());
-        String s1 = ctx.getChild(1).getText();
+        String s1 = ";";
         strTree.put(ctx, expr + s1);
     }
 
