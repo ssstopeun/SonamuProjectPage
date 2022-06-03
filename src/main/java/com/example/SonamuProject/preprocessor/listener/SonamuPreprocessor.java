@@ -272,6 +272,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
         }
     }
 
+
     // numberLiteral
     //  : (DecimalNumber | HexNumber) NumberUnit? ;
 
@@ -689,7 +690,12 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
 
     @Override
     public void exitStatement(SolidityParser.StatementContext ctx) {
-        strTree.put(ctx, strTree.get(ctx.getChild(0)));
+        if(ctx.block()!=null){
+            strTree.put(ctx, strTree.get(ctx.getChild(0)));
+        }else{
+            strTree.put(ctx, printIndent()+strTree.get(ctx.getChild(0)));
+        }
+
     }
 
     @Override
@@ -829,6 +835,8 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
 
     @Override
     public void exitIfStatement(SolidityParser.IfStatementContext ctx) {
+        int origin_indent = indent;
+        indent = 0;
         String if_snm = "경우";
         String expr = strTree.get(ctx.expression());
         String if_stmt = strTree.get(ctx.statement(0));
@@ -839,7 +847,8 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
             else_snm = "그 외";
             else_stmt = strTree.get(ctx.statement(1));
         }
-        strTree.put(ctx, printIndent() + if_snm + " (" + expr + ")" + " " + if_stmt + printIndent() + else_snm + " " + else_stmt);
+        indent = origin_indent;
+        strTree.put(ctx, if_snm + " (" + expr + ")" + " " + if_stmt + printIndent() + else_snm + " " + else_stmt);
 
         /*
         String s1 = ctx.getChild(0).getText(); // 'if'
@@ -879,7 +888,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
 
         if(ctx.expression() != null)
             expr = " = " + strTree.get(ctx.expression());
-        strTree.put(ctx, printIndent() + s + expr + ";");
+        strTree.put(ctx, s + expr + ";");
         /*
         String start = "";
         String end = "";
@@ -970,14 +979,14 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
         if (ctx.expression() != null) {
             expr = strTree.get(ctx.expression());
         }
-        strTree.put(ctx, printIndent() + return_smn + " " + expr + ";");
+        strTree.put(ctx, return_smn + " " + expr + ";");
     }
 
     @Override
     public void exitEmitStatement(SolidityParser.EmitStatementContext ctx) {
         String emit_smn = "기록하다";
         String funcCall = strTree.get(ctx.functionCall());
-        strTree.put(ctx, printIndent() + funcCall + emit_smn + ";");
+        strTree.put(ctx, funcCall + emit_smn + ";");
     }
 
     @Override
@@ -1040,7 +1049,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
         String require_snm = "실행조건";
         String exprList = strTree.get(ctx.expressionList());
 
-        strTree.put(ctx, printIndent() + require_snm + " (" + exprList + ");");
+        strTree.put(ctx, require_snm + " (" + exprList + ");");
     }
 
     @Override
