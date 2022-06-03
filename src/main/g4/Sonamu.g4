@@ -163,7 +163,11 @@ statement
   | returnStatement
   | throwStatement
   | emitStatement
-  | simpleStatement ;
+  | simpleStatement
+  | requireStatement;
+
+requireStatement
+  : '실행조건' '(' expressionList ')' ';' ;
 
 expressionStatement
   : expression ';' ;

@@ -486,6 +486,18 @@ public class SonamuBaseListener implements SonamuListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterRequireStatement(SonamuParser.RequireStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRequireStatement(SonamuParser.RequireStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExpressionStatement(SonamuParser.ExpressionStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}

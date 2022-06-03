@@ -553,7 +553,11 @@ public class SolidityPreprocessor extends SonamuBaseListener implements ParseTre
 
     @Override
     public void exitStatement(SonamuParser.StatementContext ctx) {
-        strTree.put(ctx, strTree.get(ctx.getChild(0)));
+        if(ctx.block()!=null){
+            strTree.put(ctx, strTree.get(ctx.getChild(0)));
+        }else{
+            strTree.put(ctx, printIndent()+strTree.get(ctx.getChild(0)));
+        }
     }
 
     @Override
@@ -701,7 +705,7 @@ public class SolidityPreprocessor extends SonamuBaseListener implements ParseTre
             else_snm = "else";
             else_stmt = strTree.get(ctx.statement(1));
         }
-        strTree.put(ctx, printIndent() + if_snm + " (" + expr + ")" + " " + if_stmt + printIndent() + else_snm + " " + else_stmt);
+        strTree.put(ctx, if_snm + " (" + expr + ")" + " " + if_stmt + printIndent() + else_snm + " " + else_stmt);
 
         /*
         String s1 = ctx.getChild(0).getText(); // 'if'
@@ -741,7 +745,7 @@ public class SolidityPreprocessor extends SonamuBaseListener implements ParseTre
 
         if(ctx.expression() != null)
             expr = " = " + strTree.get(ctx.expression());
-        strTree.put(ctx, printIndent() + s + expr);
+        strTree.put(ctx, s + expr + ";");
         /*
         String start = "";
         String end = "";
@@ -774,7 +778,7 @@ public class SolidityPreprocessor extends SonamuBaseListener implements ParseTre
     public void exitExpressionStatement(SonamuParser.ExpressionStatementContext ctx) {
         String expr = strTree.get(ctx.expression());
         String s1 = ctx.getChild(1).getText();
-        strTree.put(ctx, printIndent() + expr + s1);
+        strTree.put(ctx, expr + s1);
     }
 
     @Override
@@ -832,14 +836,14 @@ public class SolidityPreprocessor extends SonamuBaseListener implements ParseTre
         if (ctx.expression() != null) {
             expr = strTree.get(ctx.expression());
         }
-        strTree.put(ctx, printIndent() + return_smn + " " + expr+";");
+        strTree.put(ctx, return_smn + " " + expr+";");
     }
 
     @Override
     public void exitEmitStatement(SonamuParser.EmitStatementContext ctx) {
         String emit_smn = "emit";
         String funcCall = strTree.get(ctx.functionCall());
-        strTree.put(ctx, printIndent() + emit_smn + funcCall + ";");
+        strTree.put(ctx, emit_smn + funcCall + ";");
     }
 
     @Override
@@ -896,5 +900,40 @@ public class SolidityPreprocessor extends SonamuBaseListener implements ParseTre
         String state = strTree.get(ctx.statement());
         strTree.put(ctx, printIndent() + while_snm +"(" + expr + ") "+ state);
     }
+
+    public void exitRequireStatement(SonamuParser.RequireStatementContext ctx) {
+        String require_snm = "require";
+        String exprList = strTree.get(ctx.expressionList());
+
+        strTree.put(ctx, require_snm + " (" + exprList + ");");
+    }
+/*
+    @Override
+    public void exitForStatement(SonamuParser.ForStatementContext ctx) {
+        String id = "";
+        String range = "";ㄹ
+        String expr = "";
+        String stmt = strTree.get(ctx.statement());
+
+        if(ctx.simpleStatement() != null)
+            id = strTree.get(ctx.simpleStatement()).replace(";", "");
+        if(ctx.expressionStatement() != null)
+            range = strTree.get(ctx.expressionStatement()).replace(";","");
+        if(ctx.expression() != null)
+            expr = strTree.get(ctx.expression());
+
+        strTree.put(ctx, id + "이/가 " + range + "안에서 " + expr + "실행" + printIndent() + stmt);
+    }*/
+
+    @Override
+    public void exitContinueStatement(SonamuParser.ContinueStatementContext ctx) {
+        strTree.put(ctx, "continue;");
+    }
+
+    @Override
+    public void exitBreakStatement(SonamuParser.BreakStatementContext ctx) {
+        strTree.put(ctx, "break;");
+    }
+
 
 }

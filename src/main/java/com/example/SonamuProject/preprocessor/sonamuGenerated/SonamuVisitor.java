@@ -247,6 +247,12 @@ public interface SonamuVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatement(SonamuParser.StatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SonamuParser#requireStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRequireStatement(SonamuParser.RequireStatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SonamuParser#expressionStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
