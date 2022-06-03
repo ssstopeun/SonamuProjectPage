@@ -1,22 +1,11 @@
-body{
-    font-family: 'Yeon Sung', cursive;
-}
-
-#inputText{
-    width: 850px;
-    height: 600px;
-}
-
-#outputText{
-    width: 850px;
-    height: 600px;
+body {
+    font-family: 'Yeon Sung', cursive !important;
 }
 
 #translate{
      width: 110px;
      border: 2px solid #2f991a;
      border-radius: 2px;
-     background-color: transparent;
      color: #052a53;
      padding: 0 10px;
      height: 50px;
