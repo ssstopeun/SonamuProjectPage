@@ -1,4 +1,4 @@
-// Generated from C:/Users/User/Desktop/Project/SonamuProjectPage/src/main/g4\Sonamu.g4 by ANTLR 4.10.1
+// Generated from C:/Users/PC/Desktop/졸프/SonamuProjectPage/src/main/g4\Sonamu.g4 by ANTLR 4.10.1
 
     package com.example.SonamuProject.preprocessor.sonamuGenerated;
 
@@ -293,6 +293,13 @@ public class SonamuBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitRequireStatement(SonamuParser.RequireStatementContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitRevertStatement(SonamuParser.RevertStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

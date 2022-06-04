@@ -166,7 +166,8 @@ statement
   | throwStatement
   | emitStatement
   | simpleStatement
-  | requireStatement;
+  | requireStatement
+  | revertStatement ;
 
 expressionStatement
   : expression ';' ;
@@ -190,10 +191,10 @@ doWhileStatement
   : 'do' statement 'while' '(' expression ')' ';' ;
 
 continueStatement
-  : '다시' ';' ;
+  : 'continue' ';' ;
 
 breakStatement
-  : '그만' ';' ;
+  : 'break' ';' ;
 
 returnStatement
   : 'return' expression? ';' ;
@@ -203,6 +204,9 @@ throwStatement
 
 requireStatement
   : 'require' '(' expressionList ')' ';' ;
+
+revertStatement
+  : 'revert' '(' expression? ')' ';' ;
 
 emitStatement
   : 'emit' functionCall ';' ;

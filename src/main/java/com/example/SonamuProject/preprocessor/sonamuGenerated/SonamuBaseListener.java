@@ -1,4 +1,4 @@
-// Generated from C:/Users/User/Desktop/Project/SonamuProjectPage/src/main/g4\Sonamu.g4 by ANTLR 4.10.1
+// Generated from C:/Users/PC/Desktop/졸프/SonamuProjectPage/src/main/g4\Sonamu.g4 by ANTLR 4.10.1
 
     package com.example.SonamuProject.preprocessor.sonamuGenerated;
 
@@ -493,6 +493,18 @@ public class SonamuBaseListener implements SonamuListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitRequireStatement(SonamuParser.RequireStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRevertStatement(SonamuParser.RevertStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRevertStatement(SonamuParser.RevertStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
