@@ -1,7 +1,7 @@
 package com.example.SonamuProject.service;
 
 import com.example.SonamuProject.dto.SourceCode;
-import com.example.SonamuProject.preprocessor.generated.ErrorNotifierExample;
+import com.example.SonamuProject.preprocessor.ErrorHandler;
 import com.example.SonamuProject.preprocessor.generated.SolidityLexer;
 import com.example.SonamuProject.preprocessor.generated.SolidityParser;
 import com.example.SonamuProject.preprocessor.listener.SolidityPreprocessor;
@@ -35,7 +35,7 @@ public class TranslateService {
     // solidity -> sonamu
     private String solidityToSonamuTranslate(SourceCode sourceCode) throws FileNotFoundException, UnsupportedEncodingException {
         // 코드 입력 오류 처리를 위한 PrintStream 변경
-        ErrorNotifierExample.ErrorDelegatingPrintStream errReplacement = new ErrorNotifierExample.ErrorDelegatingPrintStream(System.err);
+        ErrorHandler.ErrorDelegatingPrintStream errReplacement = new ErrorHandler.ErrorDelegatingPrintStream(System.err);
         System.setErr(errReplacement);
 
         CharStream codeCharStream = CharStreams.fromString(sourceCode.getCode());
@@ -57,7 +57,7 @@ public class TranslateService {
     // sonamu -> solidity
     private String sonamuToSolidityTranslate(SourceCode sourceCode) throws FileNotFoundException, UnsupportedEncodingException {
         // 코드 입력 오류 처리를 위한 PrintStream 변경
-        ErrorNotifierExample.ErrorDelegatingPrintStream errReplacement = new ErrorNotifierExample.ErrorDelegatingPrintStream(System.err);
+        ErrorHandler.ErrorDelegatingPrintStream errReplacement = new ErrorHandler.ErrorDelegatingPrintStream(System.err);
         System.setErr(errReplacement);
 
         CharStream codeCharStream = CharStreams.fromString(sourceCode.getCode());
