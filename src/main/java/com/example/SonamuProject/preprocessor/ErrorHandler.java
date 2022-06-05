@@ -1,10 +1,10 @@
-package com.example.SonamuProject.preprocessor.generated;
+package com.example.SonamuProject.preprocessor;
 
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
-public class ErrorNotifierExample {
+public class ErrorHandler {
     public static final class ErrorDelegatingPrintStream extends PrintStream {
         public ErrorDelegatingPrintStream(PrintStream defaultErr)
                 throws FileNotFoundException, UnsupportedEncodingException {
