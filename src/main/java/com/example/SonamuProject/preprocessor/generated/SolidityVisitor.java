@@ -1,4 +1,4 @@
-// Generated from C:/Users/user/OneDrive - 충남대학교/바탕 화면/졸프/SonamuProjectPage/src/main/g4\Solidity.g4 by ANTLR 4.10.1
+// Generated from C:/Users/PC/Desktop/졸프/SonamuProjectPage/src/main/g4\Solidity.g4 by ANTLR 4.10.1
 
     package com.example.SonamuProject.preprocessor.generated;
 
@@ -324,6 +324,12 @@ public interface SolidityVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitRequireStatement(SolidityParser.RequireStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SolidityParser#revertStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRevertStatement(SolidityParser.RevertStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SolidityParser#emitStatement}.
 	 * @param ctx the parse tree

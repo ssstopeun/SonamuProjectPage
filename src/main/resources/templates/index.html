@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -9,34 +8,87 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/project.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
 </head>
 <body>
+<div class="container-md">
+
     <h1>소나무언어프로그램</h1>
     <h4>소나무언어와 Solidity언어간의 번역이 가능한 프로그램입니다.</h4>
     <p>개발자 : 박정필, 현상혁, 정지은</p>
-    <div class="file">
-        <h2>코드 불러오기 & 저장하기</h2>
-        <input id="openCode" type="file" accept=".sol, .sonamu"/>
-        <input id="fileName" placeholder="다운 받을 파일 이름 지정" />
-        <button id="saveCode">번역 결과 다운로드</button>
-    </div>
-    <div style="width: 48%; height:700px; float: left;">
-        <h2>번역할 코드</h2>
-        <form id="translateForm" th:action="@{/translate}" method="post">
-            <input type="radio" name="typeOfCode" value="sonamu" th:checked="${sourceType eq 'sonamu'}">소나무
-            <input type="radio" name="typeOfCode" value="solidity" th:checked="${sourceType eq 'solidity'}">Solidity
-            <p><textarea type="text" name = "code" placeholder = "번역할 코드를 입력하세요. " th:utext="${source}" id="inputText"></textarea></p>
-            <button type="submit" id="translate">번역하기</button>
-        </form>
-    </div>
 
-    <div style="width: 48%; height:700px; float: right;">
-        <h2>번역된 코드</h2>
-        <form>
-            <p><textarea type="text" placeholder = "결과" id="outputText" th:text="${target}" readonly></textarea></p>
-        </form>
-    </div>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script type="text/javascript" src="/js/file.js"></script>
+    <hr class="bg-danger border-2 border-top border-secondary w-75">
+
+    <form id="translateForm" th:action="@{/translate}" method="post">
+
+        <!--input area-->
+        <div class="file w-75">
+            <h2>코드 불러오기 & 저장하기</h2>
+
+            <div class="row">
+                <div class="col"><input id="openCode" type="file" accept=".sol, .sonamu" class="form-control"/></div>
+                <div class="col"><input id="fileName" placeholder="다운 받을 파일 이름 지정" class="form-control"/></div>
+                <div class="col">
+                    <button id="saveCode" class="form-control">번역 결과 다운로드</button>
+                </div>
+            </div>
+
+
+        </div>
+
+        <hr class="bg-danger border-2 border-top border-secondary w-75">
+
+        <div class="row">
+            <h2>번역 타입 선택</h2>
+
+            <div class="col w-25">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="typeOfCode" id="inlineRadio1" value="sonamu"
+                           th:checked="${sourceType eq 'sonamu'}">
+                    <label class="form-check-label" for="inlineRadio1"> 소나무 </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="typeOfCode" id="inlineRadio2" value="solidity"
+                           th:checked="${sourceType eq 'solidity'}">
+                    <label class="form-check-label" for="inlineRadio2"> solidity </label>
+                </div>
+            </div>
+        </div>
+
+        <hr class="bg-danger border-2 border-top border-secondary w-75">
+
+        <div class="row">
+            <div class="col w-25">
+                <button class="form-control border-success" type="submit" id="translate">번역하기</button>
+            </div>
+        </div>
+
+        <hr class="bg-danger border-2 border-top border-secondary w-75">
+
+        <div class="row">
+            <div class="col-6">
+                <h3>번역할 코드</h3>
+                <p><textarea class="form-control" type="text" name="code" placeholder="번역할 코드를 입력하세요. "
+                             th:utext="${source}" id="inputText"></textarea></p>
+            </div>
+            <div class="col-6">
+                <h3>번역된 코드</h3>
+                <form>
+                    <p><textarea class="form-control" type="text" placeholder="결과" id="outputText"
+                                 th:text="${target}" readonly></textarea></p>
+                </form>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="/js/file.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
 </body>
 </html>

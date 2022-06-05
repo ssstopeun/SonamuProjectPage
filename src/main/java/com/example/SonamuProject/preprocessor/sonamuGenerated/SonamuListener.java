@@ -1,4 +1,4 @@
-// Generated from C:/Users/User/Desktop/Project/SonamuProjectPage/src/main/g4\Sonamu.g4 by ANTLR 4.10.1
+// Generated from C:/Users/PC/Desktop/졸프/SonamuProjectPage/src/main/g4\Sonamu.g4 by ANTLR 4.10.1
 
     package com.example.SonamuProject.preprocessor.sonamuGenerated;
 
@@ -399,6 +399,26 @@ public interface SonamuListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStatement(SonamuParser.StatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SonamuParser#requireStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterRequireStatement(SonamuParser.RequireStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SonamuParser#requireStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitRequireStatement(SonamuParser.RequireStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SonamuParser#revertStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterRevertStatement(SonamuParser.RevertStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SonamuParser#revertStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitRevertStatement(SonamuParser.RevertStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SonamuParser#expressionStatement}.
 	 * @param ctx the parse tree

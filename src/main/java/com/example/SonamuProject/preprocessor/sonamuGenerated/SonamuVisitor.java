@@ -1,4 +1,4 @@
-// Generated from C:/Users/User/Desktop/Project/SonamuProjectPage/src/main/g4\Sonamu.g4 by ANTLR 4.10.1
+// Generated from C:/Users/PC/Desktop/졸프/SonamuProjectPage/src/main/g4\Sonamu.g4 by ANTLR 4.10.1
 
     package com.example.SonamuProject.preprocessor.sonamuGenerated;
 
@@ -246,6 +246,18 @@ public interface SonamuVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitStatement(SonamuParser.StatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SonamuParser#requireStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRequireStatement(SonamuParser.RequireStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SonamuParser#revertStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRevertStatement(SonamuParser.RevertStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SonamuParser#expressionStatement}.
 	 * @param ctx the parse tree

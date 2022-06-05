@@ -34,6 +34,15 @@ $(function(){
         }
         return true;
     })
+
+    // inputText에 코드 입력 시 textarea 크기 자동 조절
+    $("#inputText").on('propertychange change keyup paste input', function () {
+        $(this).height(1).height($(this).prop('scrollHeight')+5 );
+    });
+
+    // 페이지 최초 로드 시 textarea 크기 자동 조절
+    $("#inputText").height(1).height($("#inputText").prop('scrollHeight')+5 );
+    $("#outputText").height(1).height($("#outputText").prop('scrollHeight')+5 );
 });
 
 function downloadFile(fileName, content) {

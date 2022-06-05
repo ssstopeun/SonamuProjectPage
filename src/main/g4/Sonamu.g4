@@ -46,7 +46,7 @@ natSpec
 contractDefinition
   : natSpec? identifier
     ( '계약' | '인터페이스' | '라이브러리' )
-    ( 'is' inheritanceSpecifier (',' inheritanceSpecifier )* )?
+    ( ':상속' inheritanceSpecifier (',' inheritanceSpecifier )* )?
     '{' contractPart* '}' ;
 
 inheritanceSpecifier
@@ -163,7 +163,15 @@ statement
   | returnStatement
   | throwStatement
   | emitStatement
-  | simpleStatement ;
+  | simpleStatement
+  | requireStatement
+  | revertStatement ;
+
+requireStatement
+  : '실행조건' '(' expressionList ')' ';' ;
+
+revertStatement
+  : '에러발생' '(' expression? ')' ';' ;
 
 expressionStatement
   : expression ';' ;
@@ -187,10 +195,10 @@ doWhileStatement
   : 'do' statement 'while' '(' expression ')' ';' ;
 
 continueStatement
-  : 'continue' ';' ;
+  : '다시' ';' ;
 
 breakStatement
-  : 'break' ';' ;
+  : '그만' ';' ;
 
 returnStatement
   : '반환' expression? ';' ;
@@ -444,18 +452,18 @@ ReservedKeyword
   | 'typeof' ;
 
 AnonymousKeyword : 'anonymous' ;
-BreakKeyword : 'break' ;
-ConstantKeyword : 'constant' ;
-ContinueKeyword : 'continue' ;
+BreakKeyword : '그만' ;
+ConstantKeyword : ':불변처리' ;
+ContinueKeyword : '다시' ;
 ExternalKeyword : ':외부용' ;
-IndexedKeyword : 'indexed' ;
+IndexedKeyword : '검색' ;
 InternalKeyword : ':상속용' ;
 PayableKeyword : ':지불가능' ;
 PrivateKeyword : ':개인용' ;
 PublicKeyword : ':공용' ;
-PureKeyword : 'pure' ;
+PureKeyword : ':순수함수' ;
 TypeKeyword : 'type' ;
-ViewKeyword : 'view' ;
+ViewKeyword : ':읽기전용' ;
 
 Identifier
   : IdentifierStart IdentifierPart* ;

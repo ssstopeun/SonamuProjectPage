@@ -166,7 +166,8 @@ statement
   | throwStatement
   | emitStatement
   | simpleStatement
-  | requireStatement;
+  | requireStatement
+  | revertStatement ;
 
 expressionStatement
   : expression ';' ;
@@ -203,6 +204,9 @@ throwStatement
 
 requireStatement
   : 'require' '(' expressionList ')' ';' ;
+
+revertStatement
+  : 'revert' '(' expression? ')' ';' ;
 
 emitStatement
   : 'emit' functionCall ';' ;
