@@ -7,6 +7,7 @@ $(function(){
 
         reader.addEventListener("load", () => {
             content.html(reader.result);
+            resizeTextArea();
         }, false);
 
         if (file) {
@@ -41,9 +42,13 @@ $(function(){
     });
 
     // 페이지 최초 로드 시 textarea 크기 자동 조절
+    resizeTextArea();
+});
+
+function resizeTextArea() {
     $("#inputText").height(1).height($("#inputText").prop('scrollHeight')+5 );
     $("#outputText").height(1).height($("#outputText").prop('scrollHeight')+5 );
-});
+}
 
 function downloadFile(fileName, content) {
 
