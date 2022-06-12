@@ -60,7 +60,10 @@
         <hr class="bg-danger border-2 border-top border-secondary w-75">
 
         <div class="row">
-            <div class="col w-25">
+            <div class="col-sm">
+                <button class="form-control border-success" type="button" id="spellCheck">맞춤법 검사</button>
+            </div>
+            <div class="col-sm">
                 <button class="form-control border-success" type="submit" id="translate">번역하기</button>
             </div>
         </div>
@@ -70,7 +73,7 @@
         <div class="row">
             <div class="col-6">
                 <h3>번역할 코드</h3>
-                <p><textarea class="form-control" type="text" name="code" placeholder="번역할 코드를 입력하세요. "
+                <p><textarea spellcheck="true" class="form-control" type="text" name="code" placeholder="번역할 코드를 입력하세요. "
                              th:utext="${source}" id="inputText"></textarea></p>
             </div>
             <div class="col-6">

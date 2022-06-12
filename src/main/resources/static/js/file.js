@@ -27,6 +27,20 @@ $(function(){
         }
     })
 
+    // 맞춤법 검사 onClick event
+    $("#spellCheck").click(function() {
+        var insdoc = "<input type='hidden' name='text1' value='" + $("#inputText").val() + "'>";
+
+        var goform = $("<form>", {
+            method: "post",
+            action: 'http://speller.cs.pusan.ac.kr/results',
+            target: 'translate',
+            html: insdoc
+        }).appendTo("body");
+
+        goform.submit();
+    })
+
     // 언어 종류 선택하지 않았을 시 summit 되지 않도록 함
     $("#translateForm").submit(function() {
         if ($("input[name='typeOfCode']:checked").val() === undefined) {

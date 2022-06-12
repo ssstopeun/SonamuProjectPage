@@ -2,8 +2,7 @@ body {
     font-family: 'Yeon Sung', cursive !important;
 }
 
-#translate{
-     width: 110px;
+#translate, #spellCheck{
      border: 2px solid #2f991a;
      border-radius: 2px;
      color: #052a53;
