@@ -29,16 +29,21 @@ $(function(){
 
     // 맞춤법 검사 onClick event
     $("#spellCheck").click(function() {
-        var insdoc = "<input type='hidden' name='text1' value='" + $("#inputText").val() + "'>";
+        const inputText = $("#inputText").val().replaceAll("'", "\"");
+        const inputLength = inputText.length;
 
-        var goform = $("<form>", {
-            method: "post",
-            action: 'http://speller.cs.pusan.ac.kr/results',
-            target: 'translate',
-            html: insdoc
-        }).appendTo("body");
+        for (let i = 0; i < inputLength; i += 1000) {
+            const insdoc = "<input type='hidden' name='sentence' value='" + inputText.substring(i, i+1000) + "'>";
 
-        goform.submit();
+            const goform = $("<form>", {
+                method: "post",
+                action: 'https://dic.daum.net/grammar_checker.do',
+                target: 'translate'+i,
+                html: insdoc
+            }).appendTo("body");
+
+            goform.submit();
+        }
     })
 
     // 언어 종류 선택하지 않았을 시 summit 되지 않도록 함
