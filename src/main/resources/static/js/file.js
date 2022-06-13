@@ -1,4 +1,22 @@
 $(function(){
+    // 페이지 로드 시 확장자 자동 지정
+    if ($("input[name='typeOfCode']:checked").val() === "sonamu") {
+        $(".extension").text(".sol");
+    }
+    else {
+        $(".extension").text(".sonamu");
+    }
+
+    // 언어 선택 라디오 버튼 이벤트
+    $("input[name='typeOfCode']").click(function() {
+        if ($("input[name='typeOfCode']:checked").val() === "sonamu") {
+            $(".extension").text(".sol");
+        }
+        else {
+            $(".extension").text(".sonamu");
+        }
+    })
+
     // 파일 불러오기 onChange event
     $("#openCode").change(function() {
         const content = $("#inputText");
@@ -6,8 +24,8 @@ $(function(){
         const reader = new FileReader();
 
         reader.addEventListener("load", () => {
-            content.html(reader.result);
-            resizeTextArea();
+            content.text(reader.result);
+            // resizeTextArea(); // 파일 불러오기 이후 창 크기 수정
         }, false);
 
         if (file) {
@@ -17,7 +35,14 @@ $(function(){
 
     // 파일 저장하기 onClick event
     $("#saveCode").click(function() {
-        const fileName = $("#fileName").val();
+        let fileName = $("#fileName").val();
+        // 입력 언어에 따라 저장 언어의 확장자 자동 지정
+        if ($("input[name='typeOfCode']:checked").val() === "sonamu") {
+            fileName += ".sol";
+        }
+        else {
+            fileName += ".sonamu";
+        }
         const content = $("#outputText").val();
 
         if (fileName) {
@@ -28,21 +53,29 @@ $(function(){
     })
 
     // 맞춤법 검사 onClick event
-    $("#spellCheck").click(function() {
+    $("#spellCheck").click(async function () {
         const inputText = $("#inputText").val().replaceAll("'", "\"");
         const inputLength = inputText.length;
 
-        for (let i = 0; i < inputLength; i += 1000) {
-            const insdoc = "<input type='hidden' name='sentence' value='" + inputText.substring(i, i+1000) + "'>";
+        const like = confirm("맞춤법 검사 글자 수 제한인 1000자를 초과하여\n" + (parseInt(inputLength / 1000) + 1) + "페이지로 나뉘어 실행됩니다.");
 
-            const goform = $("<form>", {
-                method: "post",
-                action: 'https://dic.daum.net/grammar_checker.do',
-                target: 'translate'+i,
-                html: insdoc
-            }).appendTo("body");
+        const wait = (timeToDelay) => new Promise((resolve) => setTimeout(resolve, timeToDelay))
 
-            goform.submit();
+        if (like) {
+            for (let i = 0; i < inputLength; i += 1000) {
+                await wait(50); // delay
+
+                const insdoc = "<input type='hidden' name='sentence' value='" + inputText.substring(i, i + 1000) + "'>";
+
+                const goform = $("<form>", {
+                    method: "post",
+                    action: 'https://dic.daum.net/grammar_checker.do',
+                    target: 'translate' + i,
+                    html: insdoc
+                }).appendTo("body");
+
+                goform.submit();
+            }
         }
     })
 
@@ -56,18 +89,22 @@ $(function(){
     })
 
     // inputText에 코드 입력 시 textarea 크기 자동 조절
-    $("#inputText").on('propertychange change keyup paste input', function () {
-        $(this).height(1).height($(this).prop('scrollHeight')+5 );
-    });
+    // $("#inputText").on('propertychange change keyup paste input', function () {
+    //     $(this).height(1).height($(this).prop('scrollHeight')+5 );
+    // });
 
     // 페이지 최초 로드 시 textarea 크기 자동 조절
-    resizeTextArea();
+    // resizeTextArea();
+
+    // 페이지 최초 로드 시 textarea에 줄 번호 표시
+    $('.lined').linedtextarea();
+
 });
 
-function resizeTextArea() {
-    $("#inputText").height(1).height($("#inputText").prop('scrollHeight')+5 );
-    $("#outputText").height(1).height($("#outputText").prop('scrollHeight')+5 );
-}
+// function resizeTextArea() {
+//     // $("#inputText").height(1).height($("#inputText").prop('scrollHeight')+5 );
+//     // $("#outputText").height(1).height($("#outputText").prop('scrollHeight')+5 );
+// }
 
 function downloadFile(fileName, content) {
 

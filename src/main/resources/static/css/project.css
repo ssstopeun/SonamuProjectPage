@@ -13,3 +13,15 @@ body {
      margin-right: 20px;
      cursor:pointer;
 }
+
+.input-box {
+     position: relative;
+}
+
+.extension {
+     position: absolute;
+     display: block;
+     right: 23px;
+     top: 6px;
+     z-index: 9;
+}
