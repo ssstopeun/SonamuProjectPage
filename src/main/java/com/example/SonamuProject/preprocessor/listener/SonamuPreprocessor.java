@@ -529,8 +529,7 @@ public class SonamuPreprocessor extends SolidityBaseListener implements ParseTre
             inheritanceSpecifierPart += ":상속 "; // 'is '
             inheritanceSpecifierPart += strTree.get(ctx.inheritanceSpecifier(0));
             for (int i = 1; i < countInheritanceSpecifier; i++) {
-                inheritanceSpecifierPart += ctx.getChild(indexOfKindOf + 2 + 2 * i); // ','
-                inheritanceSpecifierPart += " " + strTree.get(ctx.inheritanceSpecifier(i));
+                inheritanceSpecifierPart += ", " + strTree.get(ctx.inheritanceSpecifier(i));
             }
         }
 

@@ -228,8 +228,7 @@ public class SolidityPreprocessor extends SonamuBaseListener implements ParseTre
             inheritanceSpecifierPart += " is "; // 'is '
             inheritanceSpecifierPart += strTree.get(ctx.inheritanceSpecifier(0));
             for (int i = 1; i < countInheritanceSpecifier; i++) {
-                inheritanceSpecifierPart += ctx.getChild(indexOfKindOf + 2 + 2 * i); // ','
-                inheritanceSpecifierPart += " " + strTree.get(ctx.inheritanceSpecifier(i));
+                inheritanceSpecifierPart += ", " + strTree.get(ctx.inheritanceSpecifier(i));
             }
         }
 
@@ -271,7 +270,7 @@ public class SolidityPreprocessor extends SonamuBaseListener implements ParseTre
             // address payable -> "지불가능한 주소" 로 번역
             String s1 = "address";
             String s2 = "payable";
-            strTree.put(ctx, s2 + " " + s1);
+            strTree.put(ctx, s1 + " " + s2);
         }
     }
     @Override public void exitElementaryTypeName(SonamuParser.ElementaryTypeNameContext ctx) {
