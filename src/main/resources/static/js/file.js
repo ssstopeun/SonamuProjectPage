@@ -57,7 +57,13 @@ $(function(){
         const inputText = $("#inputText").val().replaceAll("'", "\"");
         const inputLength = inputText.length;
 
-        const like = confirm("맞춤법 검사 글자 수 제한인 1000자를 초과하여\n" + (parseInt(inputLength / 1000) + 1) + "페이지로 나뉘어 실행됩니다.");
+        let like;
+        if (inputText.length > 1000) {
+            like = confirm("맞춤법 검사 글자 수 제한인 1000자를 초과하여\n" + (parseInt(inputLength / 1000) + 1) + "페이지로 나뉘어 실행됩니다.");
+        }
+        else {
+            like = true; // 1000자 이하인 경우 바로 진행
+        }
 
         const wait = (timeToDelay) => new Promise((resolve) => setTimeout(resolve, timeToDelay))
 
