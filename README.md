@@ -2,7 +2,7 @@
 2022 CNU 졸업프로젝트 - 소나무언어 프리프로세서 웹 앱
 
 ## Introduction
----
+
 ## 소나무언어 개발 배경
 - 스마트 컨트랙트는 제 3의 인증기관 없이 개인 간의 계약을 가능하게 한다. 이는 블록체인 기술과의 접목을 통해 **안전성, 정확성, 투명성** 등을 보장받을 수 있어 최근 관심이 증가하고 있습니다.
 
@@ -13,21 +13,21 @@
 <br>
 
 ## 사용 방법
----
+
 ### 웹 기본 페이지  
 
-![Desktop View](/src/main/resources/img/1.JPG){: width="70%" }
+![Desktop View](/src/main/resources/img/1.JPG)
 
 ### Solidity 언어를 소나무 언어로 변환 
 
 1. 파일을 선택해 코드를 불러오거나 직접 코드를 작성합니다.  
-![Desktop View](/src/main/resources/img/2.JPG){: width="70%" }
+![Desktop View](/src/main/resources/img/2.JPG)
 
-2. 번역 타입을 선택하고 번역하기를 누르면 소나무언어로 변환된 코드가 출력됩니다.  
-![Desktop View](/src/main/resources/img/3.JPG){: width="70%" }
+1. 번역 타입을 선택하고 번역하기를 누르면 소나무언어로 변환된 코드가 출력됩니다.  
+![Desktop View](/src/main/resources/img/3.JPG)
 
-3. 번역된 코드는 저장하기를 통해 저장이 가능합니다.  
-![Desktop View](/src/main/resources/img/4.JPG){: width="70%" }
+1. 번역된 코드는 저장하기를 통해 저장이 가능합니다.  
+![Desktop View](/src/main/resources/img/4.JPG)
 
 ### 소나무 언어를 Solidity 언어로 변환
 
